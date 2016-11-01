@@ -1,0 +1,172 @@
+.tableView 
+{
+		 font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+color:#333333;
+border-collapse:collapse;
+white-space:normal;
+
+}
+.tableView caption
+{
+		 font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	background-color: #dcdcdc;
+	color: White;
+	font-size: 16pt;
+	font-weight: bold;
+}
+td
+{
+		padding-right: 3px;
+padding-left: 3px;
+}
+.tableView td
+{
+		 font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+padding-right: 3px;
+padding-left: 3px;
+white-space:nowrap;
+	padding-right: 3px;
+padding-left: 3px;
+}
+.tableViewFooter
+{
+		 font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	background-color: #dcdcdc;
+	color: black;
+	font-weight: bold;
+		padding-right: 3px;
+padding-left: 3px;
+}
+.tableViewRow
+{
+		 font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	background-color: #F7F6F3;
+	color: black;
+	font-size: smaller;
+	padding-right: 3px;
+padding-left: 3px;
+}
+.tableViewEditRow
+{
+		 font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	background-color: #d3d3d3;
+	padding-right: 3px;
+padding-left: 3px;
+}
+.tableViewRow td
+{
+		padding-right: 3px;
+padding-left: 3px;}
+.tableViewAlternatingRow td
+{	padding-right: 3px;
+padding-left: 3px;
+}
+.tableViewSelectedRow
+{
+		 font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+background-color:#E2DED6;
+font-weight:bold;
+color: black;
+padding-right: 3px;
+padding-left: 3px;
+}
+.tableViewPager
+{
+		 font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	background-color: #dcdcdc;
+	color: black;
+	text-align: center;
+	padding-right: 3px;
+padding-left: 3px;
+}
+.tableViewAlternatingRow
+{
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	background-color: #e6e6e6;
+	color: black;
+	font-size: smaller;
+	padding-right: 3px;
+padding-left: 3px;
+}
+.tblHead a:link 
+{
+		 font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+    color : black;
+    text-decoration : none;
+    	padding-right: 3px;
+padding-left: 3px;
+}
+.tblHead
+{
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	color: black;
+	background-color: #c7c7c7;
+	text-align: center;
+	border-style:groove;
+	border-top-style: groove;
+	border-right-style: groove;
+	border-left-style: groove;
+	border-bottom-style: groove;
+	padding-right: 3px;
+padding-left: 3px;
+}
+.tblHead th
+{
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	color: black;
+	background-color: #c7c7c7;
+	text-align: center;
+	border-right: thin solid;
+	border-top: thin solid;
+	border-left: thin solid;
+	border-bottom: thin solid;
+	padding-right: 3px;
+padding-left: 3px;
+}
+
+.tblHead a:link 
+{
+		 font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+    color : black;
+    text-decoration : none;
+    	padding-right: 3px;
+padding-left: 3px;
+}
+
+.tblHead a:visited 
+{
+		 font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+    color : black;
+    text-decoration : none;
+    	padding-right: 3px;
+padding-left: 3px;
+}
+
+.tblHead a:hover 
+{
+		 font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+    color : black;
+    text-decoration : underline;
+    	padding-right: 3px;
+padding-left: 3px;
+}
+
+.tblHead a:active 
+{
+		 font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+    color : black;
+    text-decoration : underline;
+    	padding-right: 3px;
+padding-left: 3px;
+}
+.legendTitle
+{
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	padding-right: 3px;
+padding-left: 3px;
+}

@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+	<script type="text/javascript" src="http://o.aolcdn.com/dojo/1.2.0/dojo/dojo.xd.js" djConfig="parseOnLoad: true"></script>
+	<script type="text/javascript">
+		dojo.require("dijit.form.Button");
+		dojo.require("dijit.Dialog");
+		
+		function dialogAlert(txtTitle, txtContent)
+		{
+			var thisdialog = new dijit.Dialog({ title: txtTitle, content: txtContent });
+			dojo.body().appendChild(thisdialog.domNode);
+			thisdialog.startup();
+			thisdialog.show();
+		}
+	</script>
+	<style type="text/css">
+		@import "http://o.aolcdn.com/dojo/1.2.0/dijit/themes/tundra/tundra.css";
+	</style>
+</head>
+<body class="tundra">
+<button dojoType="dijit.form.Button" id="buttonTest">
+	Clicky
+	<script type="dojo/method" event="onClick">
+		dialogAlert('Clicky-click!', 'Woohoo! You clicked and now you see this box.');
+	</script>
+</button>
+</body>
+</html>

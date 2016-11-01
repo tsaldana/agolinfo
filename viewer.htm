@@ -1,0 +1,213 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="version 2.0" />
+    <title>TAFB AM</title>
+    <link rel="stylesheet" type="text/css" href="css/GISViewer.css" />
+    <script type="text/javascript">djConfig = { parseOnLoad: true }</script>
+    <script type="text/javascript" language="javascript" src="https://serverapi.arcgisonline.com/jsapi/arcgis/?v=2.2"></script>
+    <script type="text/javascript" language="javascript" src="js/main.js"></script>
+    <script type="text/javascript" language="javascript" src="js/init.js"></script>
+    <script type="text/javascript" language="javascript" src="js/charts.js"></script>
+    <script type="text/javascript" language="javascript" src="js/info.js"></script>
+    <script type="text/javascript" language="javascript" src="js/find.js"></script>
+    <link rel="stylesheet" href="css/GridStyle.css" type="text/css" />
+    <link rel="stylesheet" href="css/GISViewer.css" type="text/css" />
+    <link href="https://serverapi.arcgisonline.com/jsapi/arcgis/2.2/js/dojo/dijit/themes/tundra/tundra.css"
+        rel="stylesheet" type="text/css" />
+    <!--Available dojo styles are: soria; tundra; nihilo-->
+    <style type="text/css">
+    /* set title font properties */
+           .infowindow .window .top .right .user .titlebar .title { font-family:Arial, Helvetica, sans-serif; font-size:8pt; }
+           /* set content font properties */
+          .infowindow .window .top .right .user .content { font-family:Arial, Helvetica, sans-serif; font-size:8pt; }
+          .identifyIcon { background-image:url(images/nav_identify.png); width:16px; height:16px; }
+	      .zoominIcon { background-image:url(images/nav_zoomin.png); width:16px; height:16px; }
+	      .zoomoutIcon { background-image:url(images/nav_zoomout.png); width:16px; height:16px; }
+	      .zoomfullextIcon { background-image:url(images/nav_fullextent.png); width:16px; height:16px; }
+	      .zoomprevIcon { background-image:url(images/nav_previous.png); width:16px; height:16px; }
+	      .zoomnextIcon { background-image:url(images/nav_next.png); width:16px; height:16px; }
+	      .panIcon { background-image:url(images/nav_pan.png); width:16px; height:16px; }
+	      .deactivateIcon { background-image:url(images/nav_decline.png); width:16px; height:16px; }
+	      .fixedZoomIn {background-image:url(images/FixedZoomIn.png); width:16px; height:16px; }
+	      .fixedZoomOut {background-image:url(images/FixedZoomOut.png); width:16px; height:16px; }
+	    </style>
+    <script type="text/javascript">
+        //infowindow requires
+        dojo.require("esri.dijit.InfoWindow");
+        //dojo.require("esri.InfoWindowBase");
+        //charting requires
+        dojo.require("dijit.layout.BorderContainer");
+        dojo.require("dijit.layout.ContentPane");
+        dojo.require("dojox.charting.Chart2D");
+        //chart animation
+        dojo.require("dojox.charting.action2d.Highlight");
+        dojo.require("dojox.charting.action2d.Tooltip");
+        //combobox requires
+        dojo.require("dijit.form.ComboBox");
+        dojo.require("dojo.data.ItemFileWriteStore");
+        //tab requires
+        dojo.require("dojo.parser");
+        dojo.require("dijit.layout.TabContainer");
+        dojo.require("dijit.form.Button");
+        //tooltip requires (parser is required too)
+        dojo.require("dijit.Tooltip");
+        //dojo.require("esri.dijit.Scalebar");
+    </script>
+</head>
+<body class="tundra" style="font-size: 8pt; font-family: Sans-Serif; background-color: #ffffff;" onload="versioncheck();" onresize="resizeTheMap();">
+    <!--<div dojotype="dijit.layout.BorderContainer" design="headline" gutters="false" style="width: 100%; height: 100%;">-->
+        <!--<div id="newTabContainer"><div id="iw_tabs"></div></div>-->
+        <!--<div id="tabsPane" dojotype="dijit.layout.ContentPane" region="left" style="overflow: hidden; width: 270px;" splitter="true" minSize="5" maxSize="500" >-->
+            <!--<div id="mainTabContainer" dojotype="dijit.layout.TabContainer" style="width: 245px; height: 100%;">-->
+                <!--<div id="mapTab" dojotype="dijit.layout.ContentPane" class="GISTab" title="Map" selected="true">-->
+                    <!--<div dojotype="dijit.Tooltip" class="GISToolTip" connectid="ccImg" label="Rooms symbolized by Category Code"></div>-->
+                    <!--<div dojotype="dijit.Tooltip" class="GISToolTip" connectid="orgImg" label="Rooms symbolized by Routing Symbol"></div>-->
+                    <!--<div dojotype="dijit.Tooltip" class="GISToolTip" connectid="ownImg" label="<table style='font-size: 8pt;font-family: Sans-Serif;'><tr><td style='font-weight: 800' colspan='2'><bold>Ownership Costs per square foot</bold></td></tr><tr><td><img  id='Img1' alt='' src='./images/legendGREEN.png'/></td><td>$0.00 - $4.49</td></tr><tr><td><img  id='Img2' alt='' src='./images/legendYELLOW.png' /></td><td>$4.50 - $6.99</td></tr><tr><td><img  id='Img3' alt='' src='./images/legendRED.png' /></td><td>>= $7.00</td></tr></table>"></div>-->
+                    <!--<div dojotype="dijit.Tooltip" class="GISToolTip" connectid="opImg" label="<table style='font-size: 8pt;font-family: Sans-Serif;'><tr><td style='font-weight: 800' colspan='2'><bold>Operating Costs per GSF</bold></td></tr><tr><td><img  id='Img4' alt='' src='./images/legendGREEN.png' /></td><td><= $4.50</td></tr><tr><td><img  id='Img6' alt='' src='./images/legendRED.png' /></td><td>> $4.50</td></tr></table>"></div>-->
+                    <!--<div dojotype="dijit.Tooltip" class="GISToolTip" connectid="condImg" label="<table style='font-size: 8pt;font-family: Sans-Serif;'><tr><td style='font-weight: 800' colspan='2'><bold>Building Condition</bold></td></tr><tr><td><img  id='Img7' alt='' src='./images/legendGREEN.png' /></td><td>Good</td></tr><tr><td><img  id='Img8' alt='' src='./images/legendYELLOW.png' /></td><td>Fair</td></tr><tr><td><img  id='Img9' alt='' src='./images/legendRED.png' /></td><td>Poor</td></tr></table>"></div>-->
+                    <!--<div dojotype="dijit.Tooltip" class="GISToolTip" connectid="energyImg" label="<table style='font-size: 8pt;font-family: Sans-Serif;'><tr><td style='font-weight: 800' colspan='2'><bold>Energy Costs per square foot</bold></td></tr><tr><td><img  id='Img7' alt='' src='./images/legendGREEN.png' /></td><td>$0.00 - $0.68</td></tr><tr><td><img  id='Img8' alt='' src='./images/legendYELLOW.png' /></td><td>$0.69 - $1.56</td></tr><tr><td><img  id='Img9' alt='' src='./images/legendRED.png' /></td><td>>= $1.56</td></tr></table>"></div>-->
+                    <!--<div dojotype="dijit.Tooltip" class="GISToolTip" connectid="qrateImg" label="<table style='font-size: 8pt;font-family: Sans-Serif;'><tr><td style='font-weight: 800' colspan='2'><bold>Q Rating</bold></td></tr><tr><td><img  id='Img7' alt='' src='./images/legendGREEN.png' /></td><td>80 - 100</td></tr><tr><td><img  id='Img8' alt='' src='./images/legendYELLOW.png' /></td><td>60 - 79</td></tr><tr><td><img  id='Img9' alt='' src='./images/legendRED.png' /></td><td>0 - 59</td></tr></table>"></div>-->
+                    <!--<div dojotype="dijit.Tooltip" class="GISToolTip" connectid="emImg" label="<table style='font-size: 8pt;font-family: Sans-Serif;'><tr><td style='font-weight: 800' colspan='2'><bold>Electrical Meters</bold></td></tr><tr><td><img  id='Img10' alt='' src='./images/meters.png'/></td></tr></table>"></div>-->
+                    <!--<div dojotype="dijit.Tooltip" class="GISToolTip" connectid="ngmImg" label="<table style='font-size: 8pt;font-family: Sans-Serif;'><tr><td style='font-weight: 800' colspan='2'><bold>Natural Gas Meters</bold></td></tr><tr><td><img  id='Img11' alt='' src='./images/meters.png'/></td></tr></table>"></div>-->
+                    <!--<div dojotype="dijit.Tooltip" class="GISToolTip" connectid="wmImg" label="<table style='font-size: 8pt;font-family: Sans-Serif;'><tr><td style='font-weight: 800' colspan='2'><bold>Water Meters</bold></td></tr><tr><td><img  id='Img12' alt='' src='./images/meters.png'/></td></tr></table>"></div>-->
+                    <!--<div dojotype="dijit.Tooltip" class="GISToolTip" connectid="gwpImg" label="<table style='font-size: 8pt;font-family: Sans-Serif;'><tr><td style='font-weight: 800' colspan='2'><bold>Groundwater Plumes</bold></td></tr><tr><td><img  id='Img13' alt='' src='./images/legendPLUME.png'/></td></tr></table>"></div>-->
+                    <!--<div dojotype="dijit.Tooltip" class="GISToolTip" connectid="aepImg" label="<table style='font-size: 8pt;font-family: Sans-Serif;'><tr><td style='font-weight: 800' colspan='2'><bold>Emission Units</bold></td></tr><tr><td><img  id='Img13' alt='' src='./images/legendEU.png'/></td></tr></table>"></div>-->
+                    <!--<table class="GISTable">-->
+                        <!--<tr><td class="GIS_HeadingCell">Layers</td></tr>-->
+                        <!--<tr><td><input type='checkbox' class="GISRadioButtonLV" name="group1" id='ccs' value="4" onclick='updateLayerVisibility();' />Category Codes<img id="ccImg" class="GISRadioButtonLV" alt="" src="./images/info.png" /><br /></td></tr>-->
+                        <!--<tr><td><input type='checkbox' class="GISRadioButtonLV" name="group1" id='orgs' value="5" onclick='updateLayerVisibility();' />Organizations<img id="orgImg" class="GISRadioButtonLV" alt="" src="./images/info.png" /><br /></td></tr>-->
+                        <!--&lt;!&ndash;<tr><td><input type='checkbox' class="GISRadioButtonLV" name="group1" id='own' value="6" onclick='updateLayerVisibility();' />Ownership Costs<img id="ownImg" class="GISRadioButtonLV" alt="" src="./images/info.png" /><br /></td></tr>-->
+                        <!--<tr><td><input type='checkbox' class="GISRadioButtonLV" name="group1" id='op' value="7" onclick='updateLayerVisibility();' />Operational Costs<img id="opImg" class="GISRadioButtonLV" alt="" src="./images/info.png" /><br /></td></tr>&ndash;&gt;-->
+                        <!--<tr><td><input type='checkbox' class="GISRadioButtonLV" name="group1" id='cond' value="8" onclick='updateLayerVisibility();' />Condition Index<img id="condImg" class="GISRadioButtonLV" alt="" src="./images/info.png" /><br /></td></tr>-->
+                        <!--<tr><td><input type='checkbox' class="GISRadioButtonLV" name="group1" id='qrate' value="11" onclick='updateLayerVisibility();' />Q Rating<img id="qrateImg" class="GISRadioButtonLV" alt="" src="./images/info.png" /><br /></td></tr>-->
+                        <!--<tr><td class=""><input type='checkbox' class="GISRadioButtonLV" name="group1" id='energy' value="9" onclick='updateLayerVisibility();' />Energy Usage<img id="energyImg" class="GISRadioButtonLV" alt="" src="./images/info.png" /><br /></td></tr>-->
+                        <!--<tr><td class="GISUnderlinedTR"></td></tr>-->
+                    <!--</table>-->
+                    <!--<table class="GISTable">-->
+                        <!--<tr><td><input type='checkbox' class="GISRadioButtonLV" name="group1" id='emeters' value="1"onclick='updateLayerVisibility();' />Electrical Meters<img id="emImg" class="GISRadioButtonLV" alt="" src="./images/info.png" /><br /></td></tr>-->
+                        <!--<tr><td><input type='checkbox' class="GISRadioButtonLV" name="group1" id='ngmeters' value="2" onclick='updateLayerVisibility();' />Natural Gas Meters<img id="ngmImg" class="GISRadioButtonLV" alt="" src="./images/info.png" /><br /></td></tr>-->
+                        <!--<tr><td><input type='checkbox' class="GISRadioButtonLV" name="group1" id='wmeters' value="3" onclick='updateLayerVisibility();' />Water Meters<img id="wmImg" class="GISRadioButtonLV" alt="" src="./images/info.png" /><br /></td></tr>-->
+                        <!--<tr><td><input type='checkbox' class="GISRadioButtonLV" name="group1" id='gwp' value="10" onclick='updateLayerVisibility();' />Groundwater Plumes<img id="gwpImg" class="GISRadioButtonLV" alt="" src="./images/info.png" /><br /></td></tr>-->
+                        <!--<tr><td><input type='checkbox' class="GISRadioButtonLV" name="group1" id='aep' value="0" onclick='updateLayerVisibility();' />Emission Units<img id="aepImg" class="GISRadioButtonLV" alt="" src="./images/info.png" /><br /></td></tr>-->
+                    <!--</table>-->
+                    <!--<table class="GISTable">-->
+                        <!--<tr><td class="GIS_HeadingCell">Floor</td></tr>-->
+                        <!--<tr class="trFV"><td>-->
+                            <!--<input type='radio' class="GISRadioButtonFV" name="group3" id='01' checked="true" value="1" onclick='updateLayerDef();' />1-->
+                            <!--<input type='radio' class="GISRadioButtonFV" name="group3" id='02' value="2" onclick='updateLayerDef();' />2-->
+                            <!--<input type='radio' class="GISRadioButtonFV" name="group3" id='03' value="3" onclick='updateLayerDef();' />3-->
+                            <!--<input type='radio' class="GISRadioButtonFV" name="group3" id='M1' value="4" onclick='updateLayerDef();' />M1-->
+                        <!--</td></tr>-->
+                    <!--</table>-->
+                    <!--<table style='display:none;'>-->
+                        <!--<tr><td class="GIS_HeadingCell">Find</td></tr>-->
+                        <!--<tr><td>-->
+                            <!--<input type="text" style="vertical-align: middle;" id="searchText" name="searchText" value="" />-->
+                            <!--<button dojoType="dijit.form.Button" label="Go" id="GISFindButton" widgetId="GISFindButton" onclick="search(dojo.byId('searchText').value);" />-->
+                        <!--</td></tr>-->
+						<!--<tr><td>-->
+                            <!--<input type='radio' class="GISRadioButtonQ" name="findParam" id='bldg' value="4" onclick="setFindParams('Building');" />Building<img id="findBldg" class="GISRadioButtonLV" alt="" src="./images/info.png" /><br /></td></tr>-->
+						<!--<tr><td class="">-->
+                            <!--<input type='radio' class="GISRadioButtonQ" name="findParam" id='parcel' value="4" onclick="setFindParams('Parcel');" />Parcel<img id="findParcel" class="GISRadioButtonLV" alt="" src="./images/info.png" /><br /></td></tr>-->
+                        <!--<tr><td class="GISUnderlinedTR"></td></tr>-->
+                    <!--</table>-->
+                    <!--<table class="GISTable">-->
+                        <!--<tr><td class="GIS_HeadingCell">Identify</td></tr>-->
+                        <!--<tr><td>-->
+                            <!--<input type='radio' class="GISRadioButtonQ" name="group4" id='roomsID' checked="true" value='1' onclick="updateQueryLayer(); document.getElementById('resultsContent').style.display='none';checkidentify();" />Rooms-->
+                        <!--</td></tr>-->
+                        <!--<tr><td class="">-->
+                            <!--<input type='radio' class="GISRadioButtonQ" name="group4" id='bldgsf' value='5' onclick="updateQueryLayer(); document.getElementById('resultsContent').style.display='none';checkidentify();" />Buildings-->
+                        <!--</td></tr>-->
+                        <!--<tr><td class="GISUnderlinedTR"></td></tr>-->
+					<!--</table>-->
+                    <!--<table class="GISTable">-->
+                        <!--<tr><td>-->
+                            <!--&lt;!&ndash;<input type='radio' class="GISRadioButtonQ" name="group4" id='Occup' value="6" onclick="updateQueryLayer();chartAction='Operate';checkidentify();" />Operational Costs-->
+                        <!--</td></tr><tr><td>-->
+                            <!--<input type='radio' class="GISRadioButtonQ" name="group4" id='Owner' value="7" onclick="updateQueryLayer();chartAction='Own';checkidentify();" />Total Cost of Ownership-->
+                        <!--</td></tr><tr><td>-->
+                            <!--<input type='radio' class="GISRadioButtonQ" name="group4" id='Perf' value="8" onclick="updateQueryLayer();chartAction='Perf';checkidentify();" />Building Performance&ndash;&gt;-->
+                        <!--</td></tr><tr><td>-->
+                            <!--<input type='radio' class="GISRadioButtonQ" name="group4" id='EnergyCC' value="9" onclick="updateQueryLayer();chartAction='EnergyCC';checkidentify();" />Energy by Cat Code-->
+                        <!--</td></tr><tr><td class="">-->
+                            <!--<input type='radio' class="GISRadioButtonQ" name="group4" id='EnergyMo' value="10" onclick="updateQueryLayer();chartAction='EnergyMo';checkidentify();" />Energy by Month-->
+                        <!--</td></tr>-->
+                        <!--<tr><td class="GISUnderlinedTR"></td></tr>-->
+                        <!--<tr class=GIS_></tr>-->
+                        <!--<tr><td class="">-->
+                            <!--<input type='radio' class="GISRadioButtonQ" name="group4" id='OrgChgBk' value="10" onclick="updateQueryLayer();chartAction='OrgChgBk';checkidentify();" />Organization Chargeback-->
+                        <!--</td></tr>-->
+                        <!--<tr><td class="GISUnderlinedTR"></td></tr>-->
+                        <!--</table>-->
+					<!--<table class="GISTable">-->
+						<!--<tr><td>-->
+                            <!--<input type='radio' class="GISRadioButtonQ" name="group4" id='EUs' value='11' onclick="updateQueryLayer();chartAction='EUs';checkidentify();" />Emission Units-->
+                        <!--</td></tr>-->
+                        <!--</table>-->
+                    <!--<table class="GISBottomTable">-->
+                        <!--<tr><td class="GIS_HeadingCell">Status</td></tr>-->
+                        <!--<tr><td><div id="NumRecordsDiv" style="text-align: center; background-color: #FFFFFF; visibility: visible">Selected Records: 0</div>-->
+                        <!--</td></tr><tr><td><div id="MaxRecordsDiv" style="text-align: center; background-color: #FFFFFF; visibility: hidden">Maximum # of Records Returned</div></td></tr>-->
+                    <!--</table>-->
+                <!--</div>-->
+               <!--<div id="resultsTab" dojotype="dijit.layout.ContentPane" class="GISTab" title="Results" style="margin-left: 0px; margin-right: 0px; padding-right:12px; overflow-x: hidden;">-->
+                    <!--<div id="resultsContent">-->
+                        <!--<div id="toolLinksDiv" style="margin-left: 0px; margin-right: 0px; width: 100%; visibility: hidden;">-->
+                            <!--<table style="margin-left: 0px; margin-right: 0px; width: 100%;">-->
+                                <!--<tr style="text-align: center; margin-left: 0px; margin-right: 0px; width: 100%;">-->
+                                    <!--<td id="operateLink" style="text-align: center; background-color: #e0e0e0;">-->
+                                        <!--&lt;!&ndash;<a href="#" onclick="callChart('Operate'); chartAction='Operate'; return false;"-->
+                                            <!--class="GISChartLink">Ops</a>&ndash;&gt;-->
+                                    <!--</td>-->
+                                    <!--<td id="ownLink" style="text-align: center; background-color: #e0e0e0;">-->
+                                        <!--&lt;!&ndash;<a href="#" onclick="callChart('Own');chartAction='Own'; return false;" class="GISChartLink">-->
+                                            <!--TCO</a>&ndash;&gt;-->
+                                    <!--</td>-->
+                                    <!--<td id="perfLink" style="text-align: center; background-color: #e0e0e0;">-->
+                                        <!--&lt;!&ndash;<a href="#" onclick="callChart('Perf');chartAction='Perf'; return false;" class="GISChartLink">-->
+                                            <!--Perf</a>&ndash;&gt;-->
+                                    <!--</td>-->
+                                    <!--<td id="utilCCLink" style="text-align: center; background-color: #e0e0e0;">-->
+                                        <!--<a href="#" onclick="callChart('EnergyCC');chartAction='EnergyCC'; return false;"-->
+                                            <!--class="GISChartLink">Egy CC</a>-->
+                                    <!--</td>-->
+                                    <!--<td id="utilMoLink" style="text-align: center; background-color: #e0e0e0;">-->
+                                        <!--<a href="#" onclick="callChart('EnergyMo');chartAction='EnergyMo'; return false;"-->
+                                            <!--class="GISChartLink">Egy Mo</a>-->
+                                    <!--</td>-->
+                                <!--</tr>-->
+                            <!--</table>-->
+                        <!--</div>-->
+                        <!--<div id="chartHeading" class="GISTitleTD" style="margin-left: 0px; margin-right: 0px;-->
+                            <!--width: 98%;">-->
+                        <!--</div>-->
+                        <!--<div id="chartFY" class="GISSubTitleTD" style="margin-left: 0px; margin-right: 0px;width: 98%;">-->
+                            <!--<select id="selFYear" style="margin-left: auto; margin-right: auto; display: none;"-->
+                                <!--onchange="callChart(chartAction);">-->
+                                <!--<option value="2006">FY 2006</option>-->
+                                <!--<option value="2007">FY 2007</option>-->
+                                <!--<option selected="selected" value="2008">FY 2008</option>-->
+                                <!--<option value="2009">FY 2009</option>-->
+                            <!--</select>-->
+                        <!--</div>-->
+                        <!--<div id="chartDiv" class="divChart">-->
+                        <!--</div>-->
+                        <!--<div id="ResultsDiv" style="padding-left: 0px; margin-left: 0px; margin-right: 0px;width: 96%;">-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+	        <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+    <div data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="design:'sidebar', gutters:true, liveSplitters:true" id="borderContainer">
+        <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="splitter:true, region:'leading'" style="width: 100px;">Hi, I'm leading pane</div>
+        <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="splitter:true, region:'center'">Hi, I'm center pane</div>
+    </div>
+
+
+
+</body>
+</html>
